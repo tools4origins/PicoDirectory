@@ -1,7 +1,7 @@
 # Pico Directory
 
-A simple REST application using Spark Framework
-to store name and mail of some users
+A simple REST application using Spark Framework to store name and mail of some users
+
 Project made for a scholar course
 
 Possibles routes are :
