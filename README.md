@@ -4,6 +4,8 @@ A simple REST application using Spark Framework to store name and mail of some u
 
 Project made for a scholar course
 
+Base URL is `localhost:4567`
+
 Possibles routes are :
 
 > GET "/Directory/" - list all the users (XML Format)
