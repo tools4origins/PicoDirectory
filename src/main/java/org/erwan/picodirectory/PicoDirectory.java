@@ -1,9 +1,7 @@
 package org.erwan.picodirectory;
 
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 // We could used import static spark.Spark.*; but for me the Joker must stay a Batman villains.
-import static spark.Spark.after;
 import static spark.Spark.get;
 import static spark.Spark.delete;
 import static spark.Spark.put;
@@ -35,7 +32,7 @@ public class PicoDirectory {
 
             if (user.isPresent()) {
                 users.remove(user.get());
-                return emptyResponse(response);
+                return handleResourceSuccessfullyCreated(response);
             } else {
                 return handleUserNotFound(request, response);
             }
@@ -46,7 +43,7 @@ public class PicoDirectory {
                 String email = request.params("email");
                 new InternetAddress(email).validate();
                 users.add(new User(request.params("name"), request.params("email")));
-                return emptyResponse(response);
+                return handleResourceSuccessfullyCreated(response);
             } catch (AddressException e) {
                 response.status(400);
                 return "Email is not a valid email : " + e.getMessage() + ".";
@@ -54,7 +51,7 @@ public class PicoDirectory {
         });
     }
 
-    private static Object emptyResponse(Response response) {
+    private static Object handleResourceSuccessfullyCreated(Response response) {
         response.status(201);
         return "";
     }
