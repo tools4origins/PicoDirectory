@@ -40,13 +40,24 @@ public class PicoDirectory {
 
         put("/Directory/", (request, response) -> {
             try {
-                String email = request.params("email");
+                String email = request.queryParams("email");
+                String name = request.queryParams("name");
+
+                if(email==null || name == null) {
+                    throw new NullPointerException();
+                }
+
                 new InternetAddress(email).validate();
-                users.add(new User(request.params("name"), request.params("email")));
+
+                users.add(new User(name, email));
+
                 return handleResourceSuccessfullyCreated(response);
+            } catch (NullPointerException e) {
+                response.status(400);
+                return "Bad Request: Requested parameters are name and email";
             } catch (AddressException e) {
                 response.status(400);
-                return "Email is not a valid email : " + e.getMessage() + ".";
+                return "Bad Request: email not valid : " + e.getMessage() + ".";
             }
         });
     }
